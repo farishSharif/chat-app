@@ -103,7 +103,11 @@ export const updateProfile = async (req, res) => {
 
     res.status(200).json(updatedUser);
   } catch (error) {
-    console.log("error in update profile:", error);
+    console.error("error in update profile:", error);
+    // If there's a specific Cloudinary error, log it more clearly
+    if (error.http_code === 401) {
+      console.error("Cloudinary Authentication Error: Check your CLOUDINARY_API_KEY and CLOUDINARY_API_SECRET.");
+    }
     res.status(500).json({ message: "Internal server error" });
   }
 };
